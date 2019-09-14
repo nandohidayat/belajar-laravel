@@ -15,10 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hi', function () {
+Route::get('hi', function () {
     return "Hi";
 });
 
-Route::get('/blog', function () {
+Route::get('blog', function () {
     return view('blog');
 });
+
+Route::get('dosen', 'DosenController@index');
