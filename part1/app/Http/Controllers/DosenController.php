@@ -8,6 +8,8 @@ class DosenController extends Controller
 {
     public function index()
     {
-        return "Hi, this is your Dosen";
+        $username = '@nandohidayat';
+        $skill = ['HTML', 'CSS', 'Javascript'];
+        return view('biodata', ['username' => $username, 'skill' => $skill]);
     }
 }
