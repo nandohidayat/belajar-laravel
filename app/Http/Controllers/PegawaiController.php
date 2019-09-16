@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Pegawai;
 
 class PegawaiController extends Controller
 {
     public function index()
     {
-        $pegawai = DB::table('pegawai')->paginate(10);
+        // $pegawai = DB::table('pegawai')->paginate(10);
+        // $pegawai = Pegawai::all();
+        // $pegawai = Pegawai::first();
+        // $pegawai = Pegawai::find(1);
+        $pegawai = Pegawai::where('nama', 'Manah Mandala')->get();
 
-        return view('index', ['pegawai' => $pegawai]);
+        return view('pegawai', ['pegawai' => $pegawai]);
     }
 
     public function tambah()
@@ -59,7 +64,7 @@ class PegawaiController extends Controller
     {
         $cari = $request->cari;
 
-        $pegawai = DB::table('pegawai')->where('pegawai_nama','like', "%" . $cari . "%")->paginate();
+        $pegawai = DB::table('pegawai')->where('pegawai_nama', 'like', "%" . $cari . "%")->paginate();
 
         return view('index', ['pegawai' => $pegawai]);
     }
