@@ -11,26 +11,29 @@ class PegawaiController extends Controller
     public function index()
     {
         // $pegawai = DB::table('pegawai')->paginate(10);
-        // $pegawai = Pegawai::all();
+        $pegawai = Pegawai::all();
         // $pegawai = Pegawai::first();
         // $pegawai = Pegawai::find(1);
-        $pegawai = Pegawai::where('nama', 'Manah Mandala')->get();
+        // $pegawai = Pegawai::where('nama', 'Manah Mandala')->get();
 
         return view('pegawai', ['pegawai' => $pegawai]);
     }
 
     public function tambah()
     {
-        return view('tambah');
+        return view('pegawai_tambah');
     }
 
     public function store(Request $request)
     {
-        DB::table('pegawai')->insert([
-            'pegawai_nama' => $request->nama,
-            'pegawai_jabatan' => $request->jabatan,
-            'pegawai_umur' => $request->umur,
-            'pegawai_alamat' => $request->alamat
+        $this->validate($request, [
+            'nama' => 'required',
+            'alamat' => 'required'
+        ]);
+
+        Pegawai::create([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat
         ]);
 
         return redirect('/pegawai');
@@ -38,8 +41,8 @@ class PegawaiController extends Controller
 
     public function edit($id)
     {
-        $pegawai = DB::table('pegawai')->where('pegawai_id', $id)->get();
-        return view('edit', ['pegawai' => $pegawai]);
+        $pegawai = Pegawai::find($id);
+        return view('pegawai_edit', ['pegawai' => $pegawai]);
     }
 
     public function update(Request $request)
