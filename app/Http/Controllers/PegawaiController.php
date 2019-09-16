@@ -45,14 +45,17 @@ class PegawaiController extends Controller
         return view('pegawai_edit', ['pegawai' => $pegawai]);
     }
 
-    public function update(Request $request)
+    public function update($id, Request $request)
     {
-        DB::table('pegawai')->where('pegawai_id', $request->id)->update([
-            'pegawai_nama' => $request->nama,
-            'pegawai_jabatan' => $request->jabatan,
-            'pegawai_umur' => $request->umur,
-            'pegawai_alamat' => $request->alamat
+        $this->validate($request, [
+            'nama' => 'required',
+            'alamat' => 'required'
         ]);
+
+        $pegawai = Pegawai::find($id);
+        $pegawai->nama = $request->nama;
+        $pegawai->alamat = $request->alamat;
+        $pegawai->save();
 
         return redirect('/pegawai');
     }
@@ -70,5 +73,12 @@ class PegawaiController extends Controller
         $pegawai = DB::table('pegawai')->where('pegawai_nama', 'like', "%" . $cari . "%")->paginate();
 
         return view('index', ['pegawai' => $pegawai]);
+    }
+
+    public function delete($id)
+    {
+        $pegawai = Pegawai::find($id);
+        $pegawai->delete();
+        return redirect('/pegawai');
     }
 }
